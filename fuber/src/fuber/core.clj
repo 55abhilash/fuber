@@ -19,3 +19,16 @@
   (let [port (Integer/parseInt "3000")]
     (server/run-server #'app-routes {:port port})
   (println (str "Server Running at localhost:" port))))
+
+;----------------------REST API----------------------
+
+(defn getTaxi [req]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Taxi Available"})
+
+(defn endRide [req]
+  {:status 200
+   :headers {"Content-Type}" "text/html"}
+   :body "Ride Ended"})
+
