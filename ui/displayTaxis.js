@@ -11,19 +11,21 @@ $.ajax({
 	},
 	success: function (resp) {
 		var taxiData = resp;
+		var taxiIcon = L.icon({
+    			iconUrl: './img/taxi.png',
+
+    			iconSize:     [38, 95], // size of the icon
+    			iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    			popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
 		for(var i = 0; i < taxiData.length; i++) {
 			/*Get Latitude and Longitude of country*/
-			var pos = taxiData[i]["countryInfo"];
-			var lat = taxiData["latitude"];
-			var lng = taxiData["longitude"];
+			var lat = taxiData[i]["latitude"];
+			var lng = taxiData[i]["longitude"];
 
 			/*Draw a car at that location*/
-			var car = L.circleMarker([lat, lng], {
-					color: 'red',
-					fillColor: '#f03',
-					fillOpacity: 0.85,
-					radius: rad
-				     }).addTo(myMap).bindPopup("<b>" + "Fuber Driver Details" + "</b>" +  	
+			var car = L.marker([lat, lng], 
+				{ icon: taxiIcon,}).addTo(myMap).bindPopup("<b>" + "Fuber Driver Details" + "</b>" +  	
 							  "<hr>" + 
 							  "Driver Name: " + taxiData[i]["driver_name"] +  
 							  "<br> Driver ID: " + taxiData[i]["driver_id"] +

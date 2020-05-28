@@ -1,5 +1,5 @@
 
-var myMap = L.map('mapid').setView([24, 16], 3);
+var myMap = L.map('mapid').setView([15.6, 80], 6);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiNTVhYmhpbGFzaCIsImEiOiJjazg0a2t2bW8xMnE0M25vd3FwNXQzZ3BwIn0.3dbqJ8xSkjN9lrstWlPM5g', 
 {
