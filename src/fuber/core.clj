@@ -6,5 +6,4 @@
   (server/start))
 
 (defn -main [& args]
-  (startServer)
-)
+  (startServer))
