@@ -15,7 +15,10 @@
                   ; JDBC
                  [org.clojure/java.jdbc "0.7.11"]
                   ; MySQL driver
-                 [mysql/mysql-connector-java "8.0.20"]]
+                 [mysql/mysql-connector-java "8.0.20"]
+                  ; CLJ time
+                 [clj-time "0.15.2"]
+                 ]
   :main ^:skip-aot fuber.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
