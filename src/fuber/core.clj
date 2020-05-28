@@ -20,27 +20,50 @@
     :password "fuber"
   })
 
-(comment
+(comment)
+
+(defn getCurrentTime [] 
+    "12:00:00.00" 
+  )
 
 (defn getAllTaxiLocations [pinkRequested]
   ;If pinkRequested is true, add where clause for color pink, otherwise don't
-  (jdbc/query dbspec ["select taxi_id, latitude, longitude from taxi"])    
-)
+  (jdbc/query dbspec 
+    [(str "select taxi_id, 
+                  latitude, 
+                  longitude, 
+                  driver_name, 
+                  driver_id, 
+                  driver_no 
+           from taxi where isAssigned = 0 " (if (= pinkRequested "true") "and isPink = 1;" ";"))]))
 
 (defn calcTaxiDistance [taxiLocation userLocation]
 ;Pythagoras Theorem here
+; Sqrt((x2 - x1)^2 + (y2 - y1)^2), x - long, y lat
+(Math/sqrt (+ (Math/pow (- (get taxiLocation :lat) (Float/parseFloat (get userLocation :lat))) 2)
+              (Math/pow (- (get taxiLocation :long) (Float/parseFloat (get userLocation :long))) 2))
+           ))
+
+(defn getSmallest [x] 
+;Sort by distance, get first map, then remove distance from the map and return
+  (dissoc (first (sort-by :dist x)) :dist)
 )
 
 (defn calcFare [ride_id endLocation]
   ; Retrieve start location and start time, then
-  (+ (* (- endLocation startLocation) 2) (- currentTime startTime) )   
+  1;(+ (* (- endLocation startLocation) 2) (- currentTime startTime) )   
   ; Add condition for pink car
 )
 
 (defn getNearestTaxi [userLocation pinkRequested]
-  ;getSmallest will return the row with smallest distance
-  (getSmallest (for each (getAllTaxiLocations pinkRequested) (conj distances (calcTaxiDistance [taxtLoc userLocation]))))
-)
+  ;getSmallest will return the row with smallest distance 
+  ;(getAllTaxiLocations pinkRequested)
+  ;(for [x (getAllTaxiLocations pinkRequested)] (conj [] (get x :taxi_id))) 
+  (getSmallest (let [y (for [x (getAllTaxiLocations pinkRequested)] 
+                 (merge {} {:dist (calcTaxiDistance {:lat (get x :latitude) :long (get x :longitude)} 
+                                                     userLocation)} x)
+                 )] y)
+))
 
 (defn assignRide [taxi_id start_lat start_long]
   (jdbc/query dbspec ["insert into ride (taxi_id, start_latitude, start_longitude start_time) 
@@ -53,20 +76,20 @@
 (defn endRideAndGetFare [ride_id endLocation]
   (jdbc/query dbspec [])  
   (jdbc/query dbspec ["update taxi set isAssigned = 0 and latitude = endLocation.lat and longitude = endLocation.long  where taxi_id in (select taxi_id from ride where ride_id = " ride_id ";) ;"])
-  (calculateFare ride_id endLocation)  
+  (calcFare ride_id endLocation)  
  )
 
-)
+;)
 ;----------------------------------------------------
 
 ;----------------------REST API----------------------
 
 (defn findTaxi [req]
   {:status 200
-   :headers {"Content-Type" "text/html"}
+   :headers {"Content-Type" "application/json"}
    ;:body (str "Taxi Available. Your location is" (:lat (:params req)) " " (:long (:params req)))
    ;Condition remaining: When no taxi available
-   :body (getNearestTaxi [(:lat (:params req)) (:long (:params req))] (:pinkRequested (:params req)))
+   :body (str (json/write-str (getNearestTaxi {:lat (:lat (:params req)) :long (:long (:params req))} (:pinkRequested (:params req)))))
   }
 )
 
