@@ -13,7 +13,9 @@
                   ; Clojure data.JSON library
                  [org.clojure/data.json "0.2.6"]
                   ; JDBC
-                 [org.clojure/java.jdbc "0.7.11"]]
+                 [org.clojure/java.jdbc "0.7.11"]
+                  ; MySQL driver
+                 [mysql/mysql-connector-java "8.0.20"]]
   :main ^:skip-aot fuber.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
