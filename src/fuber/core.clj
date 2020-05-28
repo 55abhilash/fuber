@@ -59,18 +59,21 @@
   ;getSmallest will return the row with smallest distance 
   ;(getAllTaxiLocations pinkRequested)
   ;(for [x (getAllTaxiLocations pinkRequested)] (conj [] (get x :taxi_id))) 
-  (getSmallest (let [y (for [x (getAllTaxiLocations pinkRequested)] 
+  (if-let [result (getSmallest (let [y (for [x (getAllTaxiLocations pinkRequested)] 
                  (merge {} {:dist (calcTaxiDistance {:lat (get x :latitude) :long (get x :longitude)} 
                                                      userLocation)} x)
-                 )] y)
-))
+                 )] y))] result {:err "No Taxi Available at the moment."}
+  )
+)
 
 (defn assignRide [taxi_id start_lat start_long]
-  (jdbc/query dbspec ["insert into ride (taxi_id, start_latitude, start_longitude start_time) 
-                    values(" taxi_id "," start_lat "," start_long "," (getCurrentTime) 
-                    ");"])    
-  (jdbc/query dbspec ["update taxi set isAssigned = 1 where taxi_id = " taxi_id  ";"])  
-  (jdbc/query dbspec ["select ride_id from ride where taxi_id = " taxi_id ";"])  
+  (try (jdbc/with-db-transaction [t-con dbspec]
+    (jdbc/insert! t-con :ride {:taxi_id taxi_id :start_latitude start_lat :start_longitude start_long})    
+    (jdbc/update! t-con :taxi {:isAssigned 1} ["taxi_id = ?" taxi_id])  
+    (jdbc/query t-con ["select ride_id from ride where taxi_id = ?" taxi_id]))  
+  
+  (catch Exception e (.printStackTrace (.getNextException e)))
+  )
 )
 
 (defn endRideAndGetFare [ride_id endLocation]
@@ -95,9 +98,10 @@
 
 (defn startRide [req]
   {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (assignRide [(:taxi_id (:params req)) (:start_latitude (:params req)) (:start_longitude (:params req))])
-   })
+   :headers {"Content-Type" "application/json"}
+   :body (str (json/write-str (assignRide (:taxi_id (:params req)) (:lat (:params req)) (:long (:params req)))))
+  }
+)
 
 (defn endRide [req]
   {:status 200
