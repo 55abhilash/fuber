@@ -13,22 +13,26 @@ Now, clone this repo:<br>
 git clone https://github.com/55abhilash/fuber
 cd fuber
 ```
-We need to setup MySQL database for Fuber to use. Database setup script and sample data is included in fuber/db/.
-    $ sudo mysql --local-infile -u root -p < db/dbsetup.sql
+We need to setup MySQL database for Fuber to use. <br>
+Database setup script and sample data is included in fuber/db/.
+```
+sudo mysql --local-infile -u root -p < db/dbsetup.sql
+```
 
-[Note: If you have MySQL privileges to create database and tables, no need to run the above command with sudo]
-
+[Note: If you have MySQL privileges to create database and tables, no need to run the above command with sudo]<br>
 This script will create database, tables, and a DB user called 'fuber'. It will also load sample data from fuber/db/taxis.csv.
 
 Once database setup is done, simply run 'leiningen run' to start Fuber endpoint service.
-
-    $ sudo leiningen run
+```
+sudo leiningen run
+```
 
 It will start on host http://localhost:3000/
 
-If you want to test the API endpoint functions, simply run:
-    $ lein test fuber.core-test
-
+To run Leiningen tests on the API endpoint functions, simply run:
+```
+lein test fuber.core-test
+```
 ## Usage
 
 # API Endpoints 
@@ -97,14 +101,6 @@ http://localhost:3000/findTaxi?pinkRequired=false&lat=10&long=10
 Book the Taxi and start Trip:
 
 End Trip:
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
