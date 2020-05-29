@@ -25,7 +25,7 @@
   (-> app-routes 
       (wrap-defaults site-defaults)
       (wrap-cors :access-control-allow-origin [#".*"] 
-                 :access-control-allow-methods [:get :put :post :delete])))
+                 :access-control-allow-methods [:get])))
 
 (defn start
   "Clojure Server"
