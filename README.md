@@ -9,9 +9,10 @@ You must install all of the following so as to run Fuber:
 Clojure, Leiningen, JDK, MySQL
 
 Now, clone this repo:<br>
-    $ git clone https://github.com/55abhilash/fuber
-    $ cd fuber
-
+```
+git clone https://github.com/55abhilash/fuber
+cd fuber
+```
 We need to setup MySQL database for Fuber to use. Database setup script and sample data is included in fuber/db/.
     $ sudo mysql --local-infile -u root -p < db/dbsetup.sql
 
