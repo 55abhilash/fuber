@@ -31,7 +31,7 @@ grant all on fuber_db.* to 'fuber';
 grant all on fuber to 'fuber';
 
 set global local_infile=ON;
-load data local infile 'taxis.csv' into table taxi fields terminated by ',' lines terminated by '\n' ignore 1 rows (taxi_id, driver_name, driver_id, driver_no, latitude, longitude, isPink, isAssigned);
+load data local infile 'db/taxis.csv' into table taxi fields terminated by ',' lines terminated by '\n' ignore 1 rows (taxi_id, driver_name, driver_id, driver_no, latitude, longitude, isPink, isAssigned);
 set global local_infile=OFF;
 
 commit;
