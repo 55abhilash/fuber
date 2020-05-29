@@ -25,11 +25,12 @@ $.ajax({
 
 			/*Draw a car at that location*/
 			var car = L.marker([lat, lng], 
-				{ icon: taxiIcon,}).addTo(myMap).bindPopup("<b>" + "Fuber Driver Details" + "</b>" +  	
-							  "<hr>" + 
-							  "Driver Name: " + taxiData[i]["driver_name"] +  
+				{ icon: taxiIcon,}).addTo(myMap).bindPopup("<b>" + "Fuber Driver Details" + "</b>" + 					       	
+							  "<hr> Driver Name: " + taxiData[i]["driver_name"] +  
 							  "<br> Driver ID: " + taxiData[i]["driver_id"] +
 							  "<br> Contact No.: " + taxiData[i]["driver_no"] + 
+							  "<br> Latitude: " + taxiData[i]["latitude"] + 
+							  "<br> Longitude: " + taxiData[i]["longitude"] + 
 							  "<br> Taxi No.: " + taxiData[i]["taxi_id"]);
 			
 		}
