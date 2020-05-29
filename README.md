@@ -6,7 +6,6 @@ FUBER: A simple Taxi booking service
 
 Fuber is a Clojure based application and makes use of Leiningen.<br>
 Following are the prerequisite software which are required by Fuber and must be installed on your system:
-* Clojure 
 * Leiningen 
 * JDK (OpenJDK or Oracle JDK)
 * MySQL
@@ -27,7 +26,7 @@ This script will create database, tables, and a DB user called 'fuber'. It will 
 
 Once database setup is done, simply run 'leiningen run' to start Fuber endpoint service.
 ```
-sudo leiningen run
+sudo lein run
 ```
 
 It will start on host http://localhost:3000/
