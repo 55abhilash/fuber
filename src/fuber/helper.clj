@@ -19,7 +19,7 @@
     ; Add condition for pink car
   (def totalFare (+ (* (calcTaxiDistance startLocation endLocation) 2)
                     (t/in-minutes (t/interval (coer/from-sql-time startTime) (coer/from-sql-time endTime)))))
-  {:fare (if (get (first isPink) :ispink) (+ totalFare 5) totalFare)})
+  {:fare (str (with-precision 2 (if (get (first isPink) :ispink) (+ totalFare 5) totalFare)) " dogecoins")})
 
 (defn getAllTaxiLocations [pinkRequested]
                     ;If pinkRequested is true, add where clause for color pink, otherwise don't
