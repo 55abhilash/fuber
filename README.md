@@ -1,24 +1,89 @@
 # fuber
 
-FIXME: description
+FUBER: A simple Taxi booking service 
 
-## Installation
+## Setup
 
-Download from http://example.com/FIXME.
+Fuber is a Clojure based application and makes use of Leiningen.
+You must install all of the following so as to run Fuber:
+Clojure, Leiningen, JDK, MySQL
+
+Now, clone this repo:
+    $ git clone https://github.com/55abhilash/fuber
+    $ cd fuber
+
+We need to setup MySQL database for Fuber to use. Database setup script and sample data is included in fuber/db/.
+    $ sudo mysql --local-infile -u root -p < db/dbsetup.sql
+
+[Note: If you have MySQL privileges to create database and tables, no need to run the above command with sudo]
+
+This script will create database, tables, and a DB user called 'fuber'. It will also load sample data from fuber/db/taxis.csv.
+
+Once database setup is done, simply run 'leiningen run' to start Fuber endpoint service.
+
+    $ sudo leiningen run
+
+It will start on host http://localhost:3000/
+
+If you want to test the API endpoint functions, simply run:
+    $ lein test fuber.core-test
 
 ## Usage
 
-FIXME: explanation
+# API Endpoints 
 
-    $ java -jar fuber-0.1.0-standalone.jar [args]
+To get a list of Taxis and their info:
+GET /getAllTaxis
+Returns: Array of JSON Objects. Each object is information of one Taxi.
 
-## Options
+To find Taxi nearest to you:
+GET /findTaxi
+Parameters: 
+    PinkRequired: 'true' if you want a Pink taxi, 'false' otherwise
+    lat: Latitude of the user
+    long: Longitude of the user
+Returns: JSON Object with information on Taxi nearest to you.
 
-FIXME: listing of options this app accepts.
+To book a Taxi and start Trip:
+GET /startTrip
+Parameters:
+    taxi_id: ID of the required Taxi. This ID was returned by /findTaxi.
+    lat: Latitude of the user
+    long: Longitude of the user
+Returns: JSON Object with the booked taxi_id and ride_id. 
+
+To end Trip:
+GET /endTrip
+Parameters:
+    taxi_id: ID of booked Taxi
+    ride_id: ID of the trip, returned by /startTrip
+    lat: Latitude of the user at trip end
+    long: Longitude of the user at trip end
+Returns: Fare owed by the user in dogecoins.
+
+# View Taxis on Map
+
+Additionally, there is a visual representation of all (non assigned) Taxis on a world map. This is included in the folder fuber/ui/.
+To view the representation, open the following in your browser:
+
+file:///path_to_fuber/ui/index.html
+
+Replace 'path_to_fuber' with the actual path of fuber on your machine.
+
+![alt text](https://github.com/55abhilash/fuber/blob/master/taxismap.png?raw=true)
+
+The Yellow cab markers show locations of Taxis. Click on the markers to get details about a Taxi.
+
+![alt text](https://github.com/55abhilash/fuber/blob/master/taxi_popup.png?raw=true)
 
 ## Examples
 
-...
+Find Nearest Taxi:
+http://localhost:3000/findTaxi?pinkRequired=false&lat=10&long=10
+
+Book the Taxi and start Trip:
+
+End Trip:
 
 ### Bugs
 
