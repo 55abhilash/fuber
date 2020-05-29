@@ -1,6 +1,6 @@
 taxi_id,driver_name,driver_id,driver_no,latitude,longitude,isPink,isAssigned
-20,Shantaram,20,12345678,50,50,0,0
-20,Sakharam,20,12345678,50,50,0,0
-20,Tukaram,20,12345678,50,50,0,0
-20,pandu,20,12345678,50,50,0,0
-20,Jose,20,12345678,50,50,0,0
+10,Shantaram,10,12345678,10,77,0,0
+20,Sakharam,20,12345678,20,80,0,0
+30,Tukaram,30,12345678,15.6,75,0,0
+40,pandu,40,12345678,12,77,1,0
+50,Jose,50,12345678,17,74,1,0
