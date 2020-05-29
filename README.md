@@ -38,49 +38,49 @@ lein test fuber.core-test
 ```
 ## Usage
 
-# API Endpoints 
+### API Endpoints 
 
 To get a list of Taxis and their info:
 
-GET /getAllTaxis
+**GET /getAllTaxis**
 
-Returns: Array of JSON Objects. Each object is information of one Taxi.
+**Returns:** Array of JSON Objects. Each object is information of one Taxi.
 
 To find Taxi nearest to you:
 
-GET /findTaxi
+**GET /findTaxi**
 
-Parameters: 
+**Parameters:** 
     PinkRequired: 'true' if you want a Pink taxi, 'false' otherwise
     lat: Latitude of the user
     long: Longitude of the user
 
-Returns: JSON Object with information on Taxi nearest to you.
+**Returns:** JSON Object with information on Taxi nearest to you.
 
 To book a Taxi and start Trip:
 
-GET /startTrip
+**GET /startTrip**
 
-Parameters:
+**Parameters:**
     taxi_id: ID of the required Taxi. This ID was returned by /findTaxi.
     lat: Latitude of the user
     long: Longitude of the user
 
-Returns: JSON Object with the booked taxi_id and ride_id. 
+**Returns:** JSON Object with the booked taxi_id and ride_id. 
 
 To end Trip:
 
-GET /endTrip
+**GET /endTrip**
 
-Parameters:
+**Parameters:**
     taxi_id: ID of booked Taxi
     ride_id: ID of the trip, returned by /startTrip
     lat: Latitude of the user at trip end
     long: Longitude of the user at trip end
 
-Returns: Fare owed by the user in dogecoins.
+**Returns:** Fare owed by the user in dogecoins.
 
-# View Taxis on Map
+### View Taxis on Map
 
 Additionally, there is a visual representation of all (non assigned) Taxis on a world map. This is included in the folder fuber/ui/.
 
@@ -99,11 +99,35 @@ The Yellow cab markers show locations of Taxis. Click on the markers to get deta
 ## Examples
 
 Find Nearest Taxi:
-http://localhost:3000/findTaxi?pinkRequired=false&lat=10&long=10
 
-Book the Taxi and start Trip:
-
-End Trip:
+http://localhost:3000/findTaxi?pinkRequired=false&lat=18&long=75
+```
+{
+    "taxi_id": 5,
+    "latitude": 17.0,
+    "longitude": 74.0,
+    "driver_name": "Usha",
+    "driver_id": 5,
+    "driver_no": "1234567890"
+}
+```
+Book the Taxi and start Trip. Pass Taxi ID obtained in previous request:
+http://localhost:3000/startTrip?taxi_id=5&lat=18&long=75
+```
+{
+    "ride_id": 38,
+    "taxi_id": 5
+}
+```
+End Trip. Pass Ride ID obtained in previous request:
+http://localhost:3000/endTrip?ride_id=38&taxi_id=5&lat=19&long=76
+```
+{
+    "fare": "9.82842712474619 dogecoins"
+}
+```
+Fare is calculated as follows: 2 dogecoins per km and 1 dogecoin per minute of trip.
+Additional 5 dogecoins if Taxi is Pink.
 
 ## License
 
