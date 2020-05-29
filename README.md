@@ -112,6 +112,7 @@ http://localhost:3000/findTaxi?pinkRequired=false&lat=18&long=75
 }
 ```
 Book the Taxi and start Trip. Pass Taxi ID obtained in previous request:
+
 http://localhost:3000/startTrip?taxi_id=5&lat=18&long=75
 ```
 {
@@ -120,6 +121,7 @@ http://localhost:3000/startTrip?taxi_id=5&lat=18&long=75
 }
 ```
 End Trip. Pass Ride ID obtained in previous request:
+
 http://localhost:3000/endTrip?ride_id=38&taxi_id=5&lat=19&long=76
 ```
 {
